@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load user_groups %}
+{% block content %}
+
+<div class="form-container">
+    <h1 class="page-title">{{ article.title }}</h1>
+    <p><strong>By:</strong> {{ article.author }}</p>
+    <p><strong>Publisher:</strong> {{ article.publisher }}</p>
+    <p><strong>Status:</strong>
+        {% if article.approved %}
+            ✅ Approved
+        {% else %}
+            ⏳ Pending Review
+        {% endif %}
+    </p>
+    <p><strong>Created At:</strong> {{ article.created_at }}</p>
+
+    <hr>
+
+    <div class="article-content">
+        {{ article.content|linebreaks }}
+    </div>
+
+    <hr>
+
+    <!-- Approval button for Editors -->
+    {% if user.is_authenticated and is_editor %}
+        {% if not article.approved %}
+            <form method="post"
+            action="{% url 'approve_article' article.id %}"
+            class="article-form">
+                {% csrf_token %}
+                <button type="submit"
+                class="btn btn-primary">Approve Article</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <!-- Edit/Delete buttons -->
+    {% if user.is_authenticated %}
+        {% if user == article.author and not article.approved %}
+            <a href="{% url 'article_edit' article.id %}"
+            class="btn btn-primary">Edit Article</a>
+            <a href="{% url 'article_delete' article.id %}"
+            class="btn btn-danger">Delete Article</a>
+        {% elif user|has_group:"Editor" %}
+            <a href="{% url 'article_edit' article.id %}"
+            class="btn btn-primary">Edit Article</a>
+            <a href="{% url 'article_delete' article.id %}"
+            class="btn btn-danger">Delete Article</a>
+        {% endif %}
+    {% endif %}
+
+    <a href="{% url 'article_list' %}"
+    class="btn btn-outline">← Back to Articles</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load user_groups %}
+{% block content %}
+
+<div class="form-container">
+    <h1 class="page-title">🏢 Publishers</h1>
+
+    <ul class="publisher-list">
+        {% for publisher in publishers %}
+            <li class="publisher-item">
+                {{ publisher.name }}
+            </li>
+        {% empty %}
+            <li class="publisher-item">No publishers yet.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated and is_editor %}
+        <a href="{% url 'create_publisher' %}" class="btn btn-primary">
+            ➕ Add Publisher
+        </a>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn btn-outline">← Back Home</a>
+</div>
+
+{% endblock %}

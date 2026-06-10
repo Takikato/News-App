@@ -1,0 +1,51 @@
+from rest_framework import serializers
+from .models import Article, Publisher, Newsletter, CustomUser
+
+class ArticleSerializer(serializers.ModelSerializer):
+    """Serializer for the Article class"""
+    class Meta:
+        model = Article
+        fields = [
+            "id",
+            "title",
+            "content",
+            "author",
+            "publisher",
+            "approved",
+            "created_at"
+            ]
+        read_only_fields = ["id", "author", "approved", "created_at"]
+
+
+class PublisherSerializer(serializers.ModelSerializer):
+    """Serializer for the Publisher class"""
+    class Meta:
+        model = Publisher
+        fields = ["id", "name"]
+        read_only_fields = ["id"]
+
+
+class NewsletterSerializer(serializers.ModelSerializer):
+    """Serializer for the Newsletter class"""
+    articles = ArticleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Newsletter
+        fields = [
+            "id",
+            "title",
+            "description",
+            "author",
+            "articles",
+            "created_at"
+            ]
+        read_only_fields = ["id", "author", "articles", "created_at"]
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Serializer for the CustomUser class"""
+    class Meta:
+        model = CustomUser
+        fields = ["id", "username", "email", "role"]
+        read_only_fields = ["id", "role"]
+
