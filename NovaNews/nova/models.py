@@ -41,6 +41,13 @@ class CustomUser(AbstractUser):
     )
 
     def save(self, *args, **kwargs):
+        """
+        Save the user instance and assign a group based on role.
+
+        :param args: Additional positional arguments.
+        :param kwargs: Additional keyword arguments.
+        :raises Group.DoesNotExist: If the group for the role cannot be created.
+        """
         super().save(*args, **kwargs)
         # Assign group based on role
         group, _ = Group.objects.get_or_create(name=self.role.capitalize())
