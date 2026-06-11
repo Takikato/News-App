@@ -37,13 +37,20 @@ def login_user(request):
 
 def register_user(request):
     """
-    _summary_
-    Function that register a users information into the database
-    Args:
-        request (_type_): _description_
+    Handle user registration by processing the registration form.
 
-    Returns:
-        _type_: _description_
+    This view manages the registration of a new user. If the request
+    method is POST, it validates and saves the submitted form data.
+    On success, the user is redirected to the login page with a success
+    message. On failure, an error message is displayed. For GET requests,
+    an empty registration form is rendered.
+
+    :param request: The HTTP request object containing method and form data.
+    :type request: django.http.HttpRequest
+
+    :returns: An HTTP response rendering the registration template or a redirect
+              to the login page upon successful registration.
+    :rtype: django.http.HttpResponse
     """
     if request.method == "POST":
         form = RegisterForm(request.POST)
