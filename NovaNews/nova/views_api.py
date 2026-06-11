@@ -29,10 +29,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """
-        _summary_
+        Determine permissions based on the current action.
 
-        Returns:
-            _type_: _description_
+        :returns: A list of permission classes appropriate for the action.
+        :rtype: list
         """
         if self.action in ["list", "retrieve", "subscribed"]:
             return [permissions.IsAuthenticatedOrReadOnly()]
