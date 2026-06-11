@@ -4,11 +4,21 @@ from django.contrib.auth.models import AbstractUser, Group
 
 class CustomUser(AbstractUser):
     """
-    _summary_
-    Custom class that will be used for the user instead of
-    the default User model in Django
-    Args:
-        AbstractUser (_type_): _description_
+    Custom user model extending Django's AbstractUser.
+
+    This model replaces the default Django User model and adds
+    role-based functionality. It supports three roles:
+    - Reader: can subscribe to publishers and journalists.
+    - Editor: can manage publishers and approve articles.
+    - Journalist: can author articles and be followed by readers.
+
+    Reader-specific subscription fields allow users to follow
+    publishers and journalists directly. The `save` method ensures
+    that each user is automatically assigned to a Django group
+    corresponding to their role.
+
+    :param AbstractUser: Base Django user model with authentication fields.
+    :type AbstractUser: django.contrib.auth.models.AbstractUser
     """
     ROLE_CHOICES = [
         ("reader", "Reader"),
@@ -31,6 +41,13 @@ class CustomUser(AbstractUser):
     )
 
     def save(self, *args, **kwargs):
+        """
+        Save the user instance and assign a group based on role.
+
+        :param args: Additional positional arguments.
+        :param kwargs: Additional keyword arguments.
+        :raises Group.DoesNotExist: If the group for the role cannot be created.
+        """
         super().save(*args, **kwargs)
         # Assign group based on role
         group, _ = Group.objects.get_or_create(name=self.role.capitalize())
@@ -40,13 +57,16 @@ class CustomUser(AbstractUser):
 
 class Publisher(models.Model):
     """
-    _summary_
-    Class for Publishers
-    Args:
-        models (_type_): _description_
+    Publisher model representing organizations that produce articles.
 
-    Returns:
-        _type_: _description_
+    A publisher can have multiple editors and journalists associated
+    with it. Editors manage the publisher, while journalists contribute
+    articles under the publisher's name.
+
+    :param models.Model: Base Django model class.
+    :type models.Model: django.db.models.Model
+    :returns: String representation of the publisher (its name).
+    :rtype: str
     """
     name = models.CharField(max_length=100, unique=True)
     editors = models.ManyToManyField(

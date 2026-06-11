@@ -77,16 +77,11 @@ WSGI_APPLICATION = 'NovaNews.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL database engine
-        'NAME': 'NovaNews',                # Your database name
-        'USER': 'root',                        # Your database user
-        'PASSWORD': 'Y*yEX1$cyiBN>%T233FC',                # Your database password
-        'HOST': 'localhost',                   # Database is hosted on your own machine
-        'PORT': '3306',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",  # stored locally in the project
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

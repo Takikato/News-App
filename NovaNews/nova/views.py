@@ -11,14 +11,20 @@ from django.db.models import Q
 
 def login_user(request):
     """
-    _summary_
-    Function that allows a user to login
+    Authenticate and log in a user.
 
-    Args:
-        request (_type_): _description_
+    This view handles user login by validating the submitted login form.
+    If the request method is POST, the form is validated and the user is
+    authenticated. On success, the user is logged in and redirected to
+    the home page with a success message. On failure, an error message
+    is displayed. For GET requests, an empty login form is rendered.
 
-    Returns:
-        _type_: _description_
+    :param request: The HTTP request object containing method and form data.
+    :type request: django.http.HttpRequest
+
+    :returns: An HTTP response rendering the login template or a redirect
+              to the home page upon successful login.
+    :rtype: django.http.HttpResponse
     """
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
@@ -37,13 +43,20 @@ def login_user(request):
 
 def register_user(request):
     """
-    _summary_
-    Function that register a users information into the database
-    Args:
-        request (_type_): _description_
+    Handle user registration by processing the registration form.
 
-    Returns:
-        _type_: _description_
+    This view manages the registration of a new user. If the request
+    method is POST, it validates and saves the submitted form data.
+    On success, the user is redirected to the login page with a success
+    message. On failure, an error message is displayed. For GET requests,
+    an empty registration form is rendered.
+
+    :param request: The HTTP request object containing method and form data.
+    :type request: django.http.HttpRequest
+
+    :returns: An HTTP response rendering the registration template or a redirect
+              to the login page upon successful registration.
+    :rtype: django.http.HttpResponse
     """
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -62,13 +75,17 @@ def register_user(request):
 @login_required
 def logout_user(request):
     """
-    _summary_
-    Function that will log the user out
-    Args:
-        request (_type_): _description_
+    Log out the currently authenticated user.
 
-    Returns:
-        _type_: _description_
+    This view ends the user's session by calling Django's built-in
+    logout function. After logging out, the user is redirected to
+    the login page.
+
+    :param request: The HTTP request object containing session information.
+    :type request: django.http.HttpRequest
+
+    :returns: An HTTP response that redirects the user to the login page.
+    :rtype: django.http.HttpResponseRedirect
     """
     logout(request)
     return redirect("login") # redirect the user back to the log in screen

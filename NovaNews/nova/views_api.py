@@ -9,18 +9,19 @@ from django.db.models import Q
 
 class ArticleViewSet(viewsets.ModelViewSet):
     """
-    _summary_
+    ViewSet for managing articles with role-based permissions.
 
-    Args:
-        viewsets (_type_): _description_
+    Provides CRUD operations for articles while enforcing role-specific
+    access rules:
+    - Readers: can only view approved articles and their subscriptions.
+    - Journalists: can create new articles and update/delete their own.
+    - Editors: can update/delete any article and approve articles.
 
-    Raises:
-        PermissionDenied: _description_
-        PermissionDenied: _description_
-        PermissionDenied: _description_
-
-    Returns:
-        _type_: _description_
+    :param viewsets.ModelViewSet: Base class providing default CRUD behavior.
+    :raises PermissionDenied: Raised when a user attempts an action without
+                              sufficient role permissions.
+    :returns: Serialized article data or HTTP responses depending on the action.
+    :rtype: rest_framework.response.Response
     """
     queryset = Article.objects.filter(approved=True)
     serializer_class = ArticleSerializer
@@ -28,10 +29,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """
-        _summary_
+        Determine permissions based on the current action.
 
-        Returns:
-            _type_: _description_
+        :returns: A list of permission classes appropriate for the action.
+        :rtype: list
         """
         if self.action in ["list", "retrieve", "subscribed"]:
             return [permissions.IsAuthenticatedOrReadOnly()]
@@ -46,13 +47,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         """
-        _summary_
+        Create a new article authored by the current user.
 
-        Args:
-            serializer (_type_): _description_
-
-        Raises:
-            PermissionDenied: _description_
+        :param serializer: The serializer instance containing validated data.
+        :type serializer: ArticleSerializer
+        :raises PermissionDenied: If the user is not a journalist.
         """
         user = self.request.user
         if user.role != "journalist":
