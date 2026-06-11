@@ -11,14 +11,20 @@ from django.db.models import Q
 
 def login_user(request):
     """
-    _summary_
-    Function that allows a user to login
+    Authenticate and log in a user.
 
-    Args:
-        request (_type_): _description_
+    This view handles user login by validating the submitted login form.
+    If the request method is POST, the form is validated and the user is
+    authenticated. On success, the user is logged in and redirected to
+    the home page with a success message. On failure, an error message
+    is displayed. For GET requests, an empty login form is rendered.
 
-    Returns:
-        _type_: _description_
+    :param request: The HTTP request object containing method and form data.
+    :type request: django.http.HttpRequest
+
+    :returns: An HTTP response rendering the login template or a redirect
+              to the home page upon successful login.
+    :rtype: django.http.HttpResponse
     """
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
