@@ -75,13 +75,17 @@ def register_user(request):
 @login_required
 def logout_user(request):
     """
-    _summary_
-    Function that will log the user out
-    Args:
-        request (_type_): _description_
+    Log out the currently authenticated user.
 
-    Returns:
-        _type_: _description_
+    This view ends the user's session by calling Django's built-in
+    logout function. After logging out, the user is redirected to
+    the login page.
+
+    :param request: The HTTP request object containing session information.
+    :type request: django.http.HttpRequest
+
+    :returns: An HTTP response that redirects the user to the login page.
+    :rtype: django.http.HttpResponseRedirect
     """
     logout(request)
     return redirect("login") # redirect the user back to the log in screen
