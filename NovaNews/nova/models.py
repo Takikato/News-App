@@ -57,13 +57,16 @@ class CustomUser(AbstractUser):
 
 class Publisher(models.Model):
     """
-    _summary_
-    Class for Publishers
-    Args:
-        models (_type_): _description_
+    Publisher model representing organizations that produce articles.
 
-    Returns:
-        _type_: _description_
+    A publisher can have multiple editors and journalists associated
+    with it. Editors manage the publisher, while journalists contribute
+    articles under the publisher's name.
+
+    :param models.Model: Base Django model class.
+    :type models.Model: django.db.models.Model
+    :returns: String representation of the publisher (its name).
+    :rtype: str
     """
     name = models.CharField(max_length=100, unique=True)
     editors = models.ManyToManyField(
