@@ -47,13 +47,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         """
-        _summary_
+        Create a new article authored by the current user.
 
-        Args:
-            serializer (_type_): _description_
-
-        Raises:
-            PermissionDenied: _description_
+        :param serializer: The serializer instance containing validated data.
+        :type serializer: ArticleSerializer
+        :raises PermissionDenied: If the user is not a journalist.
         """
         user = self.request.user
         if user.role != "journalist":
