@@ -2,7 +2,16 @@ from rest_framework import serializers
 from .models import Article, Publisher, Newsletter, CustomUser
 
 class ArticleSerializer(serializers.ModelSerializer):
-    """Serializer for the Article class"""
+    """
+    Serializer for the Article model.
+
+    Converts Article instances to and from JSON representations.
+    Ensures that certain fields are read-only, such as the ID,
+    author, approval status, and creation timestamp.
+
+    :returns: Serialized Article data.
+    :rtype: dict
+    """
     class Meta:
         model = Article
         fields = [
