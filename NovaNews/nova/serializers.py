@@ -43,7 +43,16 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 
 class NewsletterSerializer(serializers.ModelSerializer):
-    """Serializer for the Newsletter class"""
+    """
+    Serializer for the Newsletter model.
+
+    Includes nested serialization of related articles.
+    Ensures that ID, author, articles, and creation timestamp
+    are read-only fields.
+
+    :returns: Serialized Newsletter data including related articles.
+    :rtype: dict
+    """
     articles = ArticleSerializer(many=True, read_only=True)
 
     class Meta:
