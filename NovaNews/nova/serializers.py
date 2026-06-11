@@ -27,7 +27,15 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class PublisherSerializer(serializers.ModelSerializer):
-    """Serializer for the Publisher class"""
+    """
+    Serializer for the Publisher model.
+
+    Provides JSON representation of Publisher instances.
+    The ID field is read-only.
+
+    :returns: Serialized Publisher data.
+    :rtype: dict
+    """
     class Meta:
         model = Publisher
         fields = ["id", "name"]
