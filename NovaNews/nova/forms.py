@@ -3,7 +3,18 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import CustomUser, Article, Publisher, Newsletter
 
 class LoginForm(AuthenticationForm):
-    """Class that will create and display the Login form"""
+    """
+    Custom login form for user authentication.
+
+    Extends Django's built-in AuthenticationForm to provide
+    styled input fields for username and password. Includes
+    Bootstrap-compatible CSS classes and placeholder text.
+
+    :param AuthenticationForm: Base Django authentication form.
+    :type AuthenticationForm: django.contrib.auth.forms.AuthenticationForm
+    :returns: A validated login form for user authentication.
+    :rtype: LoginForm
+    """
     username = forms.CharField(
         label="Username",
         widget=forms.TextInput(attrs={"class": "form-control",
