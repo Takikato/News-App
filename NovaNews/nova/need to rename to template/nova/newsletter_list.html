@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load user_groups %}
+{% block content %}
+
+<div class="form-container">
+    <h1 class="page-title">📬 Newsletters</h1>
+
+    <ul class="newsletter-list">
+        {% for newsletter in newsletters %}
+            <li class="newsletter-item">
+                <a href="{% url 'newsletter_detail' newsletter.id %}"
+                class="newsletter-link">
+                    {{ newsletter.title }}
+                </a>
+                <span class="newsletter-date">
+                    {{ newsletter.created_at|date:"Y-m-d H:i" }}
+                </span>
+            </li>
+        {% empty %}
+            <li class="newsletter-item">No newsletters yet.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Create button for Editors and Journalists -->
+    {% if user.is_authenticated and user|has_group:"Journalist" %}
+    <a href="{% url 'create_newsletter' %}" class="btn btn-primary">
+        Create Newsletter
+    </a>
+    {% endif %}
+    {% if user.is_authenticated and user|has_group:"Editor" %}
+        <a href="{% url 'create_newsletter' %}" class="btn btn-primary">
+            Create Newsletter
+        </a>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn btn-outline">← Back Home</a>
+</div>
+
+{% endblock %}
