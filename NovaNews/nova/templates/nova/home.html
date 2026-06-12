@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero">
+    <h1>Welcome to NovaNews</h1>
+    <p>Your hub for articles, publishers, and newsletters.</p>
+</div>
+
+<div class="link-grid">
+    <a href="{% url 'article_list' %}" class="link-card">
+        <h2>📰 Articles</h2>
+        <p>Browse the latest stories and insights.</p>
+    </a>
+
+    <a href="{% url 'publisher_list' %}" class="link-card">
+        <h2>🏢 Publishers</h2>
+        <p>Discover trusted publishers.</p>
+    </a>
+
+    <a href="{% url 'newsletter_list' %}" class="link-card">
+        <h2>📬 Newsletters</h2>
+        <p>Stay updated with curated newsletters.</p>
+    </a>
+
+    <a href="{% url 'search_people' %}" class="link-card">
+        <h2>🔍 Search People</h2>
+        <p>Find journalists and publishers easily.</p>
+    </a>
+</div>
+{% endblock content %}
