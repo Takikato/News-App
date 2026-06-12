@@ -1,8 +1,10 @@
 # News-App
 This is a repository created for my studies, its just a django project.
 
-To run the task please change the directory to the NovaNews
-(Use there commands below):
+First Clone the project.
+
+To run the project please change the directory to the NovaNews
+(Use the following commands below):
 
 cd NovaNews
 
