@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load user_groups %}
+{% block content %}
+
+<div class="form-container">
+    <h1 class="page-title">{{ newsletter.title }}</h1>
+    <p class="newsletter-description">{{ newsletter.description }}</p>
+    <p><strong>Created by:</strong> {{ newsletter.author }}</p>
+    <p><strong>Date:</strong> {{ newsletter.created_at }}</p>
+
+    <hr>
+
+    <h2>📰 Articles</h2>
+    <ul class="article-list">
+        {% for article in newsletter.articles.all %}
+            <li><a href="{% url 'article_detail' article.id %}">
+                {{ article.title }}</a></li>
+        {% empty %}
+            <li>No articles in this newsletter.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <!-- Edit/Delete buttons -->
+    {% if user.is_authenticated %}
+        {% if user|has_group:"Editor" or user == newsletter.author %}
+            <a href="{% url 'newsletter_edit' newsletter.id %}"
+            class="btn btn-primary">Edit Newsletter</a>
+            <a href="{% url 'newsletter_delete' newsletter.id %}"
+            class="btn btn-danger">Delete Newsletter</a>
+        {% endif %}
+    {% endif %}
+
+    <a href="{% url 'newsletter_list' %}"
+    class="btn btn-outline">← Back to Newsletters</a>
+</div>
+
+{% endblock %}
