@@ -20,10 +20,15 @@ Create a virtual environment by using the following commands IDE's terminal:
 
 python -m venv .venv
 
-(Optional some OS's have scripts disabled, so run this command):
+(Optional Windows OS's have scripts disabled, so run this command):
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 
 .\.venv\Scripts\activate
+
+Or if the previous command did not work
+
+. .venv/bin/activate
+
 
 To run the project please change the directory to the NovaNews
 (Use the following commands below):
@@ -53,6 +58,18 @@ You can access the project on a website by following this link:
 http://localhost:8000
 
 Press Ctrl+C in the terminal to stop the docker.
+
+# Troubleshooting
+
+If you get a forbidden error do to CSRF verification failed. It due to the
+fact that it does not trust localhost, add the following code to your
+settings.py inside of NovaNews folder if the code is not already there.
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "https://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
 # Folder Structure
 
