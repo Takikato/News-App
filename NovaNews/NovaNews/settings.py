@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,10 +78,15 @@ WSGI_APPLICATION = 'NovaNews.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",  # stored locally in the project
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("DB_NAME", "NovaNews"),
+        "USER": os.getenv("DB_USER", "novanews_user"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "securepassword"),
+        "HOST": os.getenv("DB_HOST", "127.0.0.1"),  # use localhost when running outside Docker
+        "PORT": os.getenv("DB_PORT", "3306"),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

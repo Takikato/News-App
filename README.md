@@ -6,12 +6,25 @@ MySQL. (It causes a lot of problems to use a custom DB)
 # News-App
 This is a repository created for my studies, its just a django project.
 
+This project uses MariaDB as a database backend.
+
 This Django project is a news app that user can use to either be a editor,
 journalist or just a normal reader. Journalists can create articles and
 newsletters. Editors can create publishers, create newsletter and edit
 articles. Readers can view these newsletters and articles and will be able
 to subscribe to these Journalists and Publishers to receive emails if they
 have posted a newsletter or article.
+
+## Requirements
+- Python 3.13+
+- Django 5.x
+- MariaDB Server (must be installed and running)
+- mysqlclient (Python package, installed via requirements.txt)
+
+Note: Installing Python dependencies from requirements.txt is not enough.
+You must also install MariaDB Server and create the NovaNews database/user
+before running migrations(Everything will be explained in the setup below).
+
 
 # Setting up the project (Windows OS)
 First Clone the project.
@@ -29,13 +42,32 @@ Or if the previous command did not work
 
 . .venv/bin/activate
 
-
 To run the project please change the directory to the NovaNews
 (Use the following commands below):
 
 cd NovaNews
 
 pip install -r requirements.txt
+
+# Database setup section
+
+If you don't have mariaDB installed:
+Install MariaDB (https://mariadb.org/download).
+
+Create a database (run this code):
+
+mysql -u root -p
+(enter your MariaDB password.)
+
+CREATE DATABASE NovaNews;
+
+CREATE USER 'novanews_user'@'%' IDENTIFIED BY 'securepassword';
+
+GRANT ALL PRIVILEGES ON NovaNews.* TO 'novanews_user'@'%';
+
+FLUSH PRIVILEGES;
+
+Exit;
 
 python manage.py makemigrations
 
