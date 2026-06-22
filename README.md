@@ -49,7 +49,7 @@ cd NovaNews
 
 pip install -r requirements.txt
 
-# Database setup section (if your not using docker)
+# Database setup section
 
 If you don't have mariaDB installed:
 Install MariaDB (https://mariadb.org/download).
@@ -68,8 +68,6 @@ GRANT ALL PRIVILEGES ON NovaNews.* TO 'novanews_user'@'%';
 FLUSH PRIVILEGES;
 
 Exit;
-
-# end of Database setup section
 
 python manage.py makemigrations
 
